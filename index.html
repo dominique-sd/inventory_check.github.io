@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inventario</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="48x48"
+            href="icons/favicon.png"
+        />
+    </head>
+    <body>
+        <button id="hamburger-btn" title="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div id="sidebar-menu">
+            <div class="sidebar-header">
+                <h1 id="sidebar-title">Inventario</h1>
+            </div>
+            <div id="sidebar-content-wrapper">
+                <div id="sidebar-counters">
+                    <p>
+                        Totale inventario:
+                        <span id="sidebar-total-elements">0</span>
+                    </p>
+                    <p>
+                        Elementi filtrati:
+                        <span id="sidebar-filtered-elements">0</span>
+                    </p>
+                    <p>
+                        Selezionati:
+                        <span id="sidebar-checked-elements">0</span>
+                    </p>
+                    <p>
+                        Rimanenti:
+                        <span id="sidebar-remaining-elements">0</span>
+                    </p>
+                    <div
+                        id="sidebar-inventory-utilizzo-counters"
+                        class="utilizzo-summary hidden"
+                    >
+                        <!-- Contatori utilizzo verranno inseriti qui da JS -->
+                    </div>
+                </div>
+                <hr class="sidebar-divider" />
+                <div id="sidebar-category-filters">
+                    <!-- Category filters will be populated by JS -->
+                </div>
+                <div id="sidebar-controls">
+                    <!-- Buttons are already defined in HTML and moved here by JS, this div is just a container -->
+                    <button id="expand-all-btn" title="Espandi tutto"></button>
+                    <button
+                        id="collapse-all-btn"
+                        title="Comprimi tutto"
+                    ></button>
+                    <button id="show-checked-btn" title="Cronologia"></button>
+                    <button
+                        id="export-checklist-btn"
+                        title="Esporta checklist attuale"
+                    ></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="initial-sections-wrapper">
+            <!-- Wrapper for initial screens -->
+            <div id="file-input-section">
+                <h1 style="margin-top: 0px; margin-bottom: 0">Carica file</h1>
+                <input type="file" id="json-file-input" accept=".json" />
+                <button id="load-file-btn">Apri file</button>
+                <p
+                    id="load-status"
+                    class="status"
+                    style="margin-left: 10px; margin-top: 0"
+                ></p>
+            </div>
+
+            <div id="confirm-load-section" class="hidden">
+                <div id="confirm-new-inventory-section" class="hidden">
+                    <h2>Inventario rilevato</h2>
+                    <p style="margin-bottom: 20px">
+                        Seleziona i filtri di utilizzo desiderati:
+                    </p>
+                    <div id="utilizzo-filters">
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="utilizzo-filter"
+                                value="Attivo"
+                                checked
+                            />
+                            Attivo</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="utilizzo-filter"
+                                value="In uso"
+                            />
+                            In uso</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="utilizzo-filter"
+                                value="Archiviato"
+                            />
+                            Archiviato</label
+                        >
+                    </div>
+                    <button
+                        id="confirm-load-new-btn"
+                        style="margin-bottom: 10px; margin-top: 10px"
+                    >
+                        Carica lista
+                    </button>
+                </div>
+
+                <div id="confirm-saved-checklist-section" class="hidden">
+                    <h2 style="margin-bottom: 30px">Checklist rilevata</h2>
+                    <p style="margin-left: 2px">
+                        <strong>Filtro originale applicato:</strong>
+                        <span id="saved-original-filters">N/D</span>
+                    </p>
+                    <p style="margin-left: 2px">
+                        <strong>Totale inventario:</strong>
+                        <span id="saved-total-items">0</span>
+                    </p>
+                    <p style="margin-left: 2px">
+                        <strong>Elementi spuntati:</strong>
+                        <span id="saved-checked-items">0</span>
+                    </p>
+                    <p style="margin-left: 2px">
+                        <strong>Elementi rimanenti:</strong>
+                        <span id="saved-remaining-items">0</span>
+                    </p>
+                    <button
+                        id="confirm-load-saved-btn"
+                        style="margin-top: 30px; margin-bottom: 20px"
+                    >
+                        Carica checklist
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <div id="checklist-container-wrapper">
+                <div
+                    id="all-items-checked-message"
+                    class="hidden"
+                    style="
+                        text-align: center;
+                        padding: 50px 0;
+                        font-size: 1.2em;
+                        color: #ccc;
+                    "
+                >
+                    Tutti gli elementi spuntati.
+                </div>
+                <div id="counters" style="display: none">
+                    <p>Totale inventario: <span id="total-elements">0</span></p>
+                    <p>
+                        Elementi filtrati: <span id="filtered-elements">0</span>
+                    </p>
+                    <p>Selezionati: <span id="checked-elements">0</span></p>
+                    <p>Rimanenti: <span id="remaining-elements">0</span></p>
+                    <div
+                        id="inventory-utilizzo-counters"
+                        class="utilizzo-summary hidden"
+                        style="display: none"
+                    ></div>
+                </div>
+                <ul id="checklist-container" class="checklist"></ul>
+            </div>
+        </div>
+
+        <div id="checked-items-overlay" class="hidden">
+            <div id="checked-items-modal">
+                <div class="modal-header">
+                    <h2>Cronologia</h2>
+                    <button id="clear-all-checked-btn">RIPRISTINA TUTTO</button>
+                </div>
+                <ul id="checked-items-list"></ul>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
