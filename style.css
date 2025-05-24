@@ -4,7 +4,7 @@ body {
     font-optical-sizing: auto;
     font-weight: 400;
     margin: 0;
-    background-color: #191919;
+    background-color: #000000;
     color: #e0e0e0;
     overflow-x: hidden;
     transition: filter 0.3s ease-out;
@@ -64,7 +64,7 @@ h2 {
     top: 0;
     left: -280px;
     width: 280px;
-    height: 100vh;
+    height: 100dvh; /* PROVA QUESTO o 100svh */
     background-color: #202020;
     color: #e0e0e0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
